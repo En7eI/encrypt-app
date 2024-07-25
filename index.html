@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Elliptic Signature App</title>
+</head>
+<body>
+  <h1>Elliptic Signature App</h1>
+  <form id="signForm">
+    <label for="message">Message:</label>
+    <input type="text" id="message" name="message" required>
+    <button type="submit">Sign</button>
+  </form>
+  <p id="signature"></p>
+
+  <script>
+    document.getElementById('signForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = document.getElementById('message').value;
+
+      const response = await fetch('/sign', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message })
+      });
+
+      const data = await response.json();
+      document.getElementById('signature').innerText = `Signature: ${data.signature}`;
+    });
+  </script>
+</body>
+</html>
